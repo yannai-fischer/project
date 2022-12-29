@@ -5,31 +5,29 @@ const MINIMUM_VALUE = 1;
 
 export class Service {
 
+  static async init(){
+    await Repository.init();
+  }
+
   static getScoreByCriteria(criteria, value){
     return criteria.filter(threshold => value >= threshold).length ?? MINIMUM_VALUE;
   }
 
-  static runAlgorithm(company) {
-    const weights = Repository.getAllWeights();
-    let totalScore = this.calculateUserScoring(company, weights);
-    STANDARD_FIELDS.forEach(field => totalScore += this.getWeightedScore(field, company, weights));
+  static async runAlgorithm(company) {
+    const weights = await Repository.getAllWeights();
+    const criteria = await Repository.getAllCriteria();
+    let totalScore = this.getUnweightedUserScoring(company) * weights['userScoring'];
+    for (const field of STANDARD_FIELDS) {
+      totalScore += await this.getScoreByCriteria(criteria[field], company[field]) * weights[field];
+    }
     return +totalScore.toFixed(2);
-  }
-
-  static getWeightedScore(field, company, weights) {
-    const criteria = Repository.getAllCriteria();
-    return Service.getScoreByCriteria(criteria.get(field), company[field]) * weights.get(field);
-  }
-
-  static calculateUserScoring(company, weights) {
-    return this.getUnweightedUserScoring(company) * weights.get('userScoring');
   }
 
   static getUnweightedUserScoring(company) {
     return company.userScoring?.length ? company.userScoring.reduce((accumulator, currentValue) => accumulator + currentValue) / company.userScoring.length : MINIMUM_VALUE;
   }
 
-  static calculateTotalScoreById(id) {
-    return Service.runAlgorithm(Repository.getCompanyById(id));
+  static async calculateTotalScoreById(id) {
+    return await Service.runAlgorithm(await Repository.getCompanyById(id));
   }
 }

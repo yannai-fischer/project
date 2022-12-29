@@ -2,13 +2,13 @@ import express from "express";
 import {Controller} from "./api/controller.js";
 
 class Index {
-  static run() {
+  static async run() {
     const expressApplication = express();
-    const server = expressApplication.listen(8081, function () {
+    const server = await expressApplication.listen(8081, async () => {
       const host = server.address().address;
       const port = server.address().port;
+      await Controller.init(expressApplication);
       console.log("Example app listening at http://%s:%s", host, port);
-      new Controller(expressApplication);
     });
   }
 }
