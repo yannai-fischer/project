@@ -21,4 +21,8 @@ export class MongoMiddleman {
   static async getCriteria() {
     return await MongoMiddleman.mongoClient.db('project').collection('criteria').findOne();
   }
+
+  static async setDefault(fieldToSet, value) {
+    return await MongoMiddleman.mongoClient.db('project').collection('defaults').updateOne( { $set: { fieldToSet : value } });
+  }
 }

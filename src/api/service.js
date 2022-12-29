@@ -15,6 +15,10 @@ export class Service {
     return Lodash.omit(await Repository.getAllWeights(), FIELDS_TO_EXCLUDE_FROM_WEIGHTS);
   }
 
+  static async setDefault(field, value){
+    return await Repository.setDefault(field, value);
+  }
+
   static getScoreByCriteria(criteria, value){
     return criteria.filter(threshold => value >= threshold).length ?? MINIMUM_VALUE;
   }

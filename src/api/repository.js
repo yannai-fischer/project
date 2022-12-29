@@ -14,6 +14,10 @@ export class Repository {
     return await MongoMiddleman.getWeights();
   }
 
+  static async setDefault(field, value) {
+    return await MongoMiddleman.setDefault(field, value);
+  }
+
   static async getAllCriteria() {
     return await MongoMiddleman.getCriteria();
   }
