@@ -18,6 +18,7 @@
   "engines": {
     "node": ">=14"
   },
+  "type": "module",
   "displayName": "Node Project Template",
   "description": "Template for creating Node.js projects including docs and a deploy pipeline",
   "author": "MichaelCurrin",
@@ -32,5 +33,8 @@
     "template",
     "skeleton",
     "quickstart"
-  ]
+  ],
+  "dependencies": {
+    "express": "^4.18.2"
+  }
 }
