@@ -19,7 +19,7 @@
     "node": ">=14"
   },
   "type": "commonjs",
-  "displayName": "Node Project Template",
+  "displayName": "Project",
   "description": "Template for creating Node.js projects including docs and a deploy pipeline",
   "author": "MichaelCurrin",
   "license": "MIT",
@@ -35,6 +35,7 @@
     "quickstart"
   ],
   "dependencies": {
+    "babel": "^6.23.0",
     "express": "^4.18.2"
   }
 }
