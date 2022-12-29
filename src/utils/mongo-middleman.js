@@ -1,4 +1,4 @@
-import {MongoClient, ObjectId, ObjectID} from 'mongodb';
+import {MongoClient, ObjectId} from 'mongodb';
 
 const CONNECTION_STRING = 'mongodb+srv://kingyannai:G8%23Py%24fk3TZJ9SV@project-cluster.biehl8x.mongodb.net/test'
 
