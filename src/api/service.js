@@ -1,12 +1,18 @@
 import {Repository} from "./repository.js";
+import Lodash from "lodash";
 
 const STANDARD_FIELDS = ['age', 'funding', 'size'];
+const FIELDS_TO_EXCLUDE_FROM_WEIGHTS = ['_id'];
 const MINIMUM_VALUE = 1;
 
 export class Service {
 
   static async init(){
     await Repository.init();
+  }
+
+  static async getAllWeights(){
+    return Lodash.omit(await Repository.getAllWeights(), FIELDS_TO_EXCLUDE_FROM_WEIGHTS);
   }
 
   static getScoreByCriteria(criteria, value){
