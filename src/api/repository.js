@@ -6,27 +6,15 @@ export class Repository {
     await MongoMiddleman.init();
   }
 
-  static async getCompanyById(id) {
-    return await MongoMiddleman.getCompanyById(id);
+  static async getCompanyById(id, collection) {
+    return await MongoMiddleman.getById(id, collection);
   }
 
-  static async getAllWeights() {
-    return await MongoMiddleman.getAllWeights();
+  static async getAll(collection) {
+    return await MongoMiddleman.getAll(collection);
   }
 
-  static async getAllDefaults() {
-    return await MongoMiddleman.getAllDefaults();
-  }
-
-  static async getAllCriteria() {
-    return await MongoMiddleman.getAllCriteria();
-  }
-
-  static async setDefault(updatePayload) {
-    return await MongoMiddleman.setDefault(updatePayload);
-  }
-
-  static async setCriteria(updatePayload) {
-    return await MongoMiddleman.setCriteria(updatePayload);
+  static async setField(updatePayload, collection) {
+    return await MongoMiddleman.setField(updatePayload, collection);
   }
 }

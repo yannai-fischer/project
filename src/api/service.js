@@ -11,24 +11,12 @@ export class Service {
     await Repository.init();
   }
 
-  static async getAllWeights(){
-    return Lodash.omit(await Repository.getAllWeights(), FIELDS_TO_EXCLUDE);
+  static async getAll(collection){
+    return Lodash.omit(await Repository.getAll(collection), FIELDS_TO_EXCLUDE);
   }
 
-  static async getAllCriteria(){
-    return Lodash.omit(await Repository.getAllCriteria(), FIELDS_TO_EXCLUDE);
-  }
-
-  static async getAllDefaults(){
-    return Lodash.omit(await Repository.getAllDefaults(), FIELDS_TO_EXCLUDE);
-  }
-
-  static async setDefault(updatePayload){
-    return await Repository.setDefault(updatePayload);
-  }
-
-  static async setCriteria(updatePayload){
-    return await Repository.setCriteria(updatePayload);
+  static async setField(updatePayload, collection){
+    return await Repository.setField(updatePayload, collection);
   }
 
   static getScoreByCriteria(criteria, value){
@@ -49,7 +37,7 @@ export class Service {
     return company.userScoring?.length ? company.userScoring.reduce((accumulator, currentValue) => accumulator + currentValue) / company.userScoring.length : MINIMUM_VALUE;
   }
 
-  static async calculateTotalScoreById(id) {
-    return await Service.runAlgorithm(await Repository.getCompanyById(id));
+  static async calculateTotalScoreById(id, collection) {
+    return await Service.runAlgorithm(await Repository.getCompanyById(id, collection));
   }
 }
