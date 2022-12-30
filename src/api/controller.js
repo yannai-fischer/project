@@ -4,6 +4,8 @@ const COMPANIES_COLLECTION = 'companies';
 const DEFAULTS_COLLECTION = 'defaults';
 const WEIGHTS_COLLECTION = 'weights';
 const CRITERIA_COLLECTION = 'criteria';
+const ADMIN_COLLECTIONS = [DEFAULTS_COLLECTION];
+const ADMIN_FIELDS = ['userScoring'];
 
 export class Controller {
   static async init(expressApplication) {
@@ -22,6 +24,7 @@ export class Controller {
 
   static getGetAllFunction(collection) {
     return async (req, res) => {
+      console.log(`Got request to get all ${collection}`);
       try {
         const response = {};
         response[collection] = await Service.getAll(collection);
@@ -36,11 +39,18 @@ export class Controller {
     const updatePayload = {};
     return async (req, res) => {
       try {
-        updatePayload[`${req.query.field}`] = JSON.parse(req.query.value);
-        return res.json({success: !!await Service.setField(updatePayload, collection)});
+        const field = req.query.field;
+        const isAdmin = !!req.query?.isAdmin;
+        updatePayload[`${field}`] = JSON.parse(req.query.value);
+        console.log(`Got request to set ${JSON.stringify(updatePayload)} in ${collection} ${isAdmin ? `from admin` : ``}`);
+        return res.json(isAdmin || Controller.isUserRequestValid(collection, field) ? {success: !!await Service.setField(updatePayload, collection)} : {message: `Unauthorised action. Please contact an admin`});
       } catch (e) {
-        res.json({message: `Request to set ${updatePayload} in ${collection} failed. Error: ${e.message}`});
+        res.json({message: `Request to set ${JSON.stringify(updatePayload)} in ${collection} failed. Error: ${e.message}`});
       }
     };
+  }
+
+  static isUserRequestValid(collection, field) {
+    return !(ADMIN_COLLECTIONS.find(adminCollection => adminCollection === collection) || ADMIN_FIELDS.find(adminField => adminField === field));
   }
 }
