@@ -1,6 +1,6 @@
 import {MongoClient, ObjectId} from 'mongodb';
 
-const CONNECTION_STRING = 'mongodb+srv://kingyannai:G8%23Py%24fk3TZJ9SV@project-cluster.biehl8x.mongodb.net/test'
+const CONNECTION_STRING = 'mongodb+srv://kingyannai:G8%23Py%24fk3TZJ9SV@project-cluster.biehl8x.mongodb.net/test';
 
 export class MongoMiddleman {
   static mongoClient;
@@ -11,18 +11,26 @@ export class MongoMiddleman {
   }
 
   static async getCompanyById(id) {
-    return await MongoMiddleman.mongoClient.db('project').collection('companies').findOne({_id:ObjectId(id)});
+    return await MongoMiddleman.mongoClient.db('project').collection('companies').findOne({_id: ObjectId(id)});
   }
 
-  static async getWeights() {
+  static async getAllWeights() {
     return await MongoMiddleman.mongoClient.db('project').collection('weights').findOne();
   }
 
-  static async getCriteria() {
+  static async getAllDefaults() {
+    return await MongoMiddleman.mongoClient.db('project').collection('defaults').findOne();
+  }
+
+  static async getAllCriteria() {
     return await MongoMiddleman.mongoClient.db('project').collection('criteria').findOne();
   }
 
-  static async setDefault(fieldToSet, value) {
-    return await MongoMiddleman.mongoClient.db('project').collection('defaults').updateOne( { $set: { fieldToSet : value } });
+  static async setDefault(updatePayload) {
+    return await MongoMiddleman.mongoClient.db('project').collection('defaults').updateOne({}, {$set: updatePayload});
+  }
+
+  static async setCriteria(updatePayload) {
+    return await MongoMiddleman.mongoClient.db('project').collection('criteria').updateOne({}, {$set: updatePayload});
   }
 }

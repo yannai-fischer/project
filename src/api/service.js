@@ -2,7 +2,7 @@ import {Repository} from "./repository.js";
 import Lodash from "lodash";
 
 const STANDARD_FIELDS = ['age', 'funding', 'size'];
-const FIELDS_TO_EXCLUDE_FROM_WEIGHTS = ['_id'];
+const FIELDS_TO_EXCLUDE = ['_id'];
 const MINIMUM_VALUE = 1;
 
 export class Service {
@@ -12,11 +12,23 @@ export class Service {
   }
 
   static async getAllWeights(){
-    return Lodash.omit(await Repository.getAllWeights(), FIELDS_TO_EXCLUDE_FROM_WEIGHTS);
+    return Lodash.omit(await Repository.getAllWeights(), FIELDS_TO_EXCLUDE);
   }
 
-  static async setDefault(field, value){
-    return await Repository.setDefault(field, value);
+  static async getAllCriteria(){
+    return Lodash.omit(await Repository.getAllCriteria(), FIELDS_TO_EXCLUDE);
+  }
+
+  static async getAllDefaults(){
+    return Lodash.omit(await Repository.getAllDefaults(), FIELDS_TO_EXCLUDE);
+  }
+
+  static async setDefault(updatePayload){
+    return await Repository.setDefault(updatePayload);
+  }
+
+  static async setCriteria(updatePayload){
+    return await Repository.setCriteria(updatePayload);
   }
 
   static getScoreByCriteria(criteria, value){

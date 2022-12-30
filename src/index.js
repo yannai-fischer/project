@@ -1,15 +1,14 @@
 import express from "express";
 import {Controller} from "./api/controller.js";
 
+const PORT = 8081;
+
 class Index {
   static async run() {
     const expressApplication = express();
-    const server = await expressApplication.listen(8081, async () => {
-      const host = server.address().address;
-      const port = server.address().port;
-      await Controller.init(expressApplication);
-      console.log("Example app listening at http://%s:%s", host, port);
-    });
+    const server = await expressApplication.listen(PORT);
+    await Controller.init(expressApplication);
+    console.log(`App listening on port:${server.address().port}`);
   }
 }
 

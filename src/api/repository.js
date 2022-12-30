@@ -11,14 +11,22 @@ export class Repository {
   }
 
   static async getAllWeights() {
-    return await MongoMiddleman.getWeights();
+    return await MongoMiddleman.getAllWeights();
   }
 
-  static async setDefault(field, value) {
-    return await MongoMiddleman.setDefault(field, value);
+  static async getAllDefaults() {
+    return await MongoMiddleman.getAllDefaults();
   }
 
   static async getAllCriteria() {
-    return await MongoMiddleman.getCriteria();
+    return await MongoMiddleman.getAllCriteria();
+  }
+
+  static async setDefault(updatePayload) {
+    return await MongoMiddleman.setDefault(updatePayload);
+  }
+
+  static async setCriteria(updatePayload) {
+    return await MongoMiddleman.setCriteria(updatePayload);
   }
 }
