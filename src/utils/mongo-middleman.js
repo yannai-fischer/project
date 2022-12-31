@@ -15,11 +15,15 @@ export class MongoMiddleman {
     return await MongoMiddleman.mongoClient.db(DB).collection(collection).findOne({_id: ObjectId(id)});
   }
 
-  static async getAll(collection) {
+  static async getFullDocument(collection) {
     return await MongoMiddleman.mongoClient.db(DB).collection(collection).findOne({});
   }
 
   static async setField(updatePayload, collection) {
     return await MongoMiddleman.mongoClient.db(DB).collection(collection).updateOne({}, {$set: updatePayload});
+  }
+
+  static async getAllDocumentsInCollection(collection) {
+    return await MongoMiddleman.mongoClient.db(DB).collection(collection).find().toArray();
   }
 }

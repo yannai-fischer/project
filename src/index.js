@@ -1,17 +1,3 @@
-import express from "express";
-import {Controller} from "./api/controller.js";
+import {ProjectApi} from "./api/project-api.js";
 
-const PORT = 8081;
-
-class Index {
-  static async run() {
-    const expressApplication = express();
-    const server = await expressApplication.listen(PORT);
-    await Controller.init(expressApplication);
-    console.log(`App listening on port:${server.address().port}`);
-  }
-}
-
-//TODO: Go over package.json
-
-Index.run();
+ProjectApi.run();

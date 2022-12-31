@@ -1,9 +1,6 @@
 import {Service} from "./service.js";
+import {COMPANIES_COLLECTION, CRITERIA_COLLECTION, DEFAULTS_COLLECTION, WEIGHTS_COLLECTION} from "../utils/consts.js";
 
-const COMPANIES_COLLECTION = 'companies';
-const DEFAULTS_COLLECTION = 'defaults';
-const WEIGHTS_COLLECTION = 'weights';
-const CRITERIA_COLLECTION = 'criteria';
 const ADMIN_COLLECTIONS = [DEFAULTS_COLLECTION];
 const ADMIN_FIELDS = ['userScoring'];
 
@@ -19,7 +16,7 @@ export class Controller {
   }
 
   static async calculateCompanyScoreById(req, res) {
-    return res.json({totalScore: await Service.calculateTotalScoreById(req.params.id)}, COMPANIES_COLLECTION);
+    return res.json({totalScore: await Service.calculateTotalScoreById(req.params.id, COMPANIES_COLLECTION)});
   }
 
   static getGetAllFunction(collection) {

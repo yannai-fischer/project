@@ -11,10 +11,14 @@ export class Repository {
   }
 
   static async getAll(collection) {
-    return await MongoMiddleman.getAll(collection);
+    return await MongoMiddleman.getFullDocument(collection);
   }
 
   static async setField(updatePayload, collection) {
     return await MongoMiddleman.setField(updatePayload, collection);
+  }
+
+  static async getAllDocumentsInCollection(collection) {
+    return await MongoMiddleman.getAllDocumentsInCollection(collection);
   }
 }

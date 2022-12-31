@@ -1,9 +1,12 @@
 import {Repository} from "./repository.js";
 import Lodash from "lodash";
+import {CRITERIA_COLLECTION, WEIGHTS_COLLECTION} from "../utils/consts.js";
 
 const STANDARD_FIELDS = ['age', 'funding', 'size'];
 const FIELDS_TO_EXCLUDE = ['_id'];
 const MINIMUM_VALUE = 1;
+
+const USER_SCORING = 'userScoring';
 
 export class Service {
 
@@ -23,12 +26,10 @@ export class Service {
     return criteria.filter(threshold => value >= threshold).length ?? MINIMUM_VALUE;
   }
 
-  static async runAlgorithm(company) {
-    const weights = await Repository.getAllWeights();
-    const criteria = await Repository.getAllCriteria();
-    let totalScore = this.getUnweightedUserScoring(company) * weights['userScoring'];
+  static async runAlgorithm(company, weights, criteria) {
+    let totalScore = this.getUnweightedUserScoring(company) * weights[USER_SCORING];
     for (const field of STANDARD_FIELDS) {
-      totalScore += await this.getScoreByCriteria(criteria[field], company[field]) * weights[field];
+      totalScore += this.getScoreByCriteria(criteria[field], company[field]) * weights[field];
     }
     return +totalScore.toFixed(2);
   }
@@ -38,6 +39,8 @@ export class Service {
   }
 
   static async calculateTotalScoreById(id, collection) {
-    return await Service.runAlgorithm(await Repository.getCompanyById(id, collection));
+    const weights = await Repository.getAll(WEIGHTS_COLLECTION);
+    const criteria = await Repository.getAll(CRITERIA_COLLECTION);
+    return await Service.runAlgorithm(await Repository.getCompanyById(id, collection), weights, criteria);
   }
 }
