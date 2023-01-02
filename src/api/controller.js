@@ -3,6 +3,7 @@ import {COMPANIES_COLLECTION, CRITERIA_COLLECTION, DEFAULTS_COLLECTION, WEIGHTS_
 
 const ADMIN_COLLECTIONS = [DEFAULTS_COLLECTION];
 const ADMIN_FIELDS = ['userScoring'];
+const ACCEPTABLE_REQUEST_TYPES = ['GET', `POST`];
 
 export class Controller {
   static async init(expressApplication) {
@@ -19,7 +20,7 @@ export class Controller {
 
   static prepareApp(req, res, next) {
       res.setHeader('Access-Control-Allow-Origin', '*');
-      res.setHeader('Access-Control-Allow-Methods', 'GET,POST');
+      res.setHeader('Access-Control-Allow-Methods', ACCEPTABLE_REQUEST_TYPES.join(`,`));
       res.setHeader('Access-Control-Allow-Methods', 'Content-Type', 'Authorization');
       next();
   }
