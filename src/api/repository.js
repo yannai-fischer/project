@@ -18,7 +18,7 @@ export class Repository {
     return await MongoMiddleman.setField(updatePayload, collection);
   }
 
-  static async getAllDocumentsInCollection(collection) {
-    return await MongoMiddleman.getAllDocumentsInCollection(collection);
+  static async getAllDocumentsInCollection(collection, options = {}) {
+    return await MongoMiddleman.getAllDocumentsInCollection(collection, options);
   }
 }

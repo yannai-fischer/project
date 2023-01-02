@@ -23,7 +23,7 @@ export class MongoMiddleman {
     return await MongoMiddleman.mongoClient.db(DB).collection(collection).updateOne({}, {$set: updatePayload});
   }
 
-  static async getAllDocumentsInCollection(collection) {
-    return await MongoMiddleman.mongoClient.db(DB).collection(collection).find().toArray();
+  static async getAllDocumentsInCollection(collection, options) {
+    return await MongoMiddleman.mongoClient.db(DB).collection(collection).find().project(options).toArray();
   }
 }

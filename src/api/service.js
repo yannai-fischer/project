@@ -1,6 +1,6 @@
 import {Repository} from "./repository.js";
 import Lodash from "lodash";
-import {CRITERIA_COLLECTION, WEIGHTS_COLLECTION} from "../utils/consts.js";
+import {COMPANIES_COLLECTION, CRITERIA_COLLECTION, WEIGHTS_COLLECTION} from "../utils/consts.js";
 
 const STANDARD_FIELDS = ['age', 'funding', 'size'];
 const FIELDS_TO_EXCLUDE = ['_id'];
@@ -10,19 +10,19 @@ const USER_SCORING = 'userScoring';
 
 export class Service {
 
-  static async init(){
+  static async init() {
     await Repository.init();
   }
 
-  static async getAll(collection){
+  static async getAll(collection) {
     return Lodash.omit(await Repository.getAll(collection), FIELDS_TO_EXCLUDE);
   }
 
-  static async setField(updatePayload, collection){
+  static async setField(updatePayload, collection) {
     return await Repository.setField(updatePayload, collection);
   }
 
-  static getScoreByCriteria(criteria, value){
+  static getScoreByCriteria(criteria, value) {
     return criteria.filter(threshold => value >= threshold).length ?? MINIMUM_VALUE;
   }
 
@@ -42,5 +42,9 @@ export class Service {
     const weights = await Repository.getAll(WEIGHTS_COLLECTION);
     const criteria = await Repository.getAll(CRITERIA_COLLECTION);
     return await Service.runAlgorithm(await Repository.getCompanyById(id, collection), weights, criteria);
+  }
+
+  static async getCompanyBusinessCards() {
+    return await Repository.getAllDocumentsInCollection(COMPANIES_COLLECTION, {name: 1});
   }
 }

@@ -20,7 +20,7 @@ class BatchLackey {
   static async getCompanyScores() {
     const weights = await Repository.getAll(WEIGHTS_COLLECTION);
     const criteria = await Repository.getAll(CRITERIA_COLLECTION);
-    return await Promise.all((await Repository.getAllDocumentsInCollection(COMPANIES_COLLECTION)).map(BatchLackey.getGetScoreByCompany(weights, criteria)));
+    return Promise.all((await Repository.getAllDocumentsInCollection(COMPANIES_COLLECTION)).map(BatchLackey.getGetScoreByCompany(weights, criteria)));
   }
 
   static getGetScoreByCompany(weights, criteria) {

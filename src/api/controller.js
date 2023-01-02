@@ -7,12 +7,21 @@ const ADMIN_FIELDS = ['userScoring'];
 export class Controller {
   static async init(expressApplication) {
     await Service.init();
+    expressApplication.use(``, Controller.prepareApp);
     expressApplication.get('/calculateCompanyScoreById/:id', Controller.calculateCompanyScoreById);
     expressApplication.get('/getAllWeights', Controller.getGetAllFunction(WEIGHTS_COLLECTION));
     expressApplication.get('/getAllDefaults', Controller.getGetAllFunction(DEFAULTS_COLLECTION));
     expressApplication.get('/getAllCriteria', Controller.getGetAllFunction(CRITERIA_COLLECTION));
+    expressApplication.get('/getAllCompanyBusinessCards', Controller.getCompanyBusinessCards);
     expressApplication.post('/setDefault', Controller.getSetFieldFunction(DEFAULTS_COLLECTION));
     expressApplication.post('/setCriteria', Controller.getSetFieldFunction(CRITERIA_COLLECTION));
+  }
+
+  static prepareApp(req, res, next) {
+      res.setHeader('Access-Control-Allow-Origin', '*');
+      res.setHeader('Access-Control-Allow-Methods', 'GET,POST');
+      res.setHeader('Access-Control-Allow-Methods', 'Content-Type', 'Authorization');
+      next();
   }
 
   static async calculateCompanyScoreById(req, res) {
@@ -40,11 +49,20 @@ export class Controller {
         const isAdmin = !!req.query?.isAdmin;
         updatePayload[`${field}`] = JSON.parse(req.query.value);
         console.log(`Got request to set ${JSON.stringify(updatePayload)} in ${collection} ${isAdmin ? `from admin` : ``}`);
-        return res.json(isAdmin || Controller.isUserRequestValid(collection, field) ? {success: !!await Service.setField(updatePayload, collection)} : {message: `Unauthorised action. Please contact an admin`});
+        return res.json(isAdmin || Controller.isUserRequestValid(collection, field) ? !!await Service.setField(updatePayload, collection) : {message: `Unauthorised action. Please contact an admin`});
       } catch (e) {
         res.json({message: `Request to set ${JSON.stringify(updatePayload)} in ${collection} failed. Error: ${e.message}`});
       }
     };
+  }
+
+  static async getCompanyBusinessCards(req, res) {
+    try {
+      console.log(`Got request to get all company business cards`);
+      return res.json(await Service.getCompanyBusinessCards());
+    } catch (e) {
+      res.json({message: `Request to get company business cards failed. Error: ${e.message}`});
+    }
   }
 
   static isUserRequestValid(collection, field) {
