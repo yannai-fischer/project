@@ -6,7 +6,7 @@ const STANDARD_FIELDS = ['age', 'funding', 'size'];
 const FIELDS_TO_EXCLUDE = ['_id'];
 const MINIMUM_VALUE = 1;
 
-const USER_SCORING = 'userScoring';
+const USER_SCORE = 'userScore';
 
 export class Service {
 
@@ -27,15 +27,15 @@ export class Service {
   }
 
   static async runAlgorithm(company, weights, criteria) {
-    let totalScore = this.getUnweightedUserScoring(company) * weights[USER_SCORING];
+    let totalScore = this.getUnweightedUserScore(company) * weights[USER_SCORE];
     for (const field of STANDARD_FIELDS) {
       totalScore += this.getScoreByCriteria(criteria[field], company[field]) * weights[field];
     }
     return +totalScore.toFixed(2);
   }
 
-  static getUnweightedUserScoring(company) {
-    return company.userScoring?.length ? company.userScoring.reduce((accumulator, currentValue) => accumulator + currentValue) / company.userScoring.length : MINIMUM_VALUE;
+  static getUnweightedUserScore(company) {
+    return company.userScore?.length ? company.userScore.reduce((accumulator, currentValue) => accumulator + currentValue) / company.userScore.length : MINIMUM_VALUE;
   }
 
   static async calculateTotalScoreById(id, collection) {

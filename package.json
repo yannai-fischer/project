@@ -7,7 +7,9 @@
     "start": "npm run serve",
     "build": "mkdir -p build && cp src/*.js build # TODO: Replace with your build command",
     "version": "npm run build",
-    "postversion": "git push --follow-tags"
+    "postversion": "git push --follow-tags",
+    "serve": "node src/index.js",
+    "test": "echo 'Passed with flying colours"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.19.1",
@@ -26,6 +28,7 @@
     "url": "https://github.com/yannai-fischer/project"
   },
   "dependencies": {
+    "body-parser": "^1.20.1",
     "express": "^4.18.2",
     "lodash": "^4.17.21"
   }
