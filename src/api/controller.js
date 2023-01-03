@@ -1,5 +1,5 @@
-import { Service } from "./service.js";
-import { COMPANIES_COLLECTION, CRITERIA_COLLECTION, DEFAULTS_COLLECTION, WEIGHTS_COLLECTION } from "../utils/consts.js";
+import {Service} from "./service.js";
+import {COMPANIES_COLLECTION, CRITERIA_COLLECTION, DEFAULTS_COLLECTION, WEIGHTS_COLLECTION} from "../utils/consts.js";
 
 const ADMIN_COLLECTIONS = [DEFAULTS_COLLECTION];
 const ADMIN_FIELDS = ['userScore'];
@@ -28,7 +28,7 @@ export class Controller {
   }
 
   static async calculateCompanyScoreById(req, res) {
-    return res.json({ totalScore: await Service.calculateTotalScoreById(req.params.id, COMPANIES_COLLECTION) });
+    return res.json({totalScore: await Service.calculateTotalScoreById(req.params.id, COMPANIES_COLLECTION)});
   }
 
   static getGetAllFunction(collection) {
@@ -39,7 +39,7 @@ export class Controller {
         response[collection] = await Service.getAll(collection);
         return res.json(response);
       } catch (e) {
-        res.json({ message: `Request to get all ${collection} failed. Error: ${e.message}` });
+        res.json({message: `Request to get all ${collection} failed. Error: ${e.message}`});
       }
     };
   }
@@ -54,7 +54,7 @@ export class Controller {
         console.log(`Got request to set ${JSON.stringify(updatePayload)} in ${collection} from ${isAdmin ? `admin` : `user`}`);
         return res.json((isAdmin || Controller.isUserRequestValid(collection, field)) && !!await Service.setField(updatePayload, collection));
       } catch (e) {
-        res.json({ message: `Request to set ${JSON.stringify(updatePayload)} in ${collection} failed. Error: ${e.message}` });
+        res.json({message: `Request to set ${JSON.stringify(updatePayload)} in ${collection} failed. Error: ${e.message}`});
       }
     };
   }
@@ -64,7 +64,7 @@ export class Controller {
       console.log(`Got request to get all company business cards`);
       return res.json(await Service.getCompanyBusinessCards());
     } catch (e) {
-      res.json({ message: `Request to get company business cards failed. Error: ${e.message}` });
+      res.json({message: `Request to get company business cards failed. Error: ${e.message}`});
     }
   }
 

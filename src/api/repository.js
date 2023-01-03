@@ -2,7 +2,7 @@ import {MongoMiddleman} from "../utils/mongo-middleman.js";
 
 export class Repository {
 
-  static async init(){
+  static async init() {
     await MongoMiddleman.init();
   }
 
