@@ -1,11 +1,8 @@
 import {Repository} from "./repository.js";
-import Lodash from "lodash";
 import {COMPANIES_COLLECTION, CRITERIA_COLLECTION, WEIGHTS_COLLECTION} from "../utils/consts.js";
 
 const STANDARD_FIELDS = ['age', 'funding', 'size'];
-const FIELDS_TO_EXCLUDE = ['_id'];
 const MINIMUM_VALUE = 1;
-
 const USER_SCORE = 'userScore';
 
 export class Service {
@@ -15,7 +12,7 @@ export class Service {
   }
 
   static async getAll(collection) {
-    return Lodash.omit(await Repository.getAll(collection), FIELDS_TO_EXCLUDE);
+    return await Repository.getAll(collection);
   }
 
   static async setField(updatePayload, collection) {
